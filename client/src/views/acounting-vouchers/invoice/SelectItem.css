@@ -1,0 +1,31 @@
+.select-item-popup {
+    position: absolute;
+    top: 50%; /* Center the popup */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px; /* Adjust width as needed */
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    z-index: 10;
+    height: auto; /* Allow the height to adjust based on content */
+    max-width: 90vw; /* Ensure it does not exceed the viewport width */
+    box-sizing: border-box; /* Include padding in height/width calculation */
+  }
+  
+  .search-container {
+    margin-bottom: 1rem; /* Space between search bar and form */
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    border: none;
+    background: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+
+  
+  

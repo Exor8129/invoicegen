@@ -1,0 +1,45 @@
+/* src/components/PartySelect.css */
+
+.select-container {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    align-items: center;
+  }
+  
+  .search-box {
+    width: 400px; /* Adjust the width of the search box as needed */
+  }
+  
+  .icon-container {
+    padding-left: 20px;
+    color: #1b9ad4; /* Default icon color */
+    display: flex;
+    align-items: center;
+    cursor: pointer; /* Change cursor to pointer (hand) */
+  }
+  
+  /* Hover effect */
+  .icon-container:hover {
+    color: black; /* Color when hovering over the icon */
+  }
+  
+  .material-symbols-outlined {
+    font-family: 'Material Symbols Outlined', sans-serif;
+    font-size: 1.5rem; /* Adjust size as needed */
+  }
+  
+  /* Styles for form popup */
+  .form-popup {
+    position: absolute;
+    top: calc(100% - 100px); /* Adjust this to position the form appropriately */
+    left: 0;
+    width: 100%; /* Adjust as needed */
+    background-color: white; /* Background color for the popup */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Shadow for better visibility */
+    padding: 1rem; /* Padding around the form */
+    z-index: 10; /* Ensure it appears above other elements */
+    max-height: 400px; /* Adjust to ensure the form is within view */
+    overflow-y: auto; /* Add scroll if the content overflows */
+  }
+  

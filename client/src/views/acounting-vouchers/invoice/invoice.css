@@ -1,0 +1,31 @@
+/* invoice.css */
+
+@media print {
+    body * {
+      visibility: hidden; /* Hide all content by default */
+    }
+    
+    .invoice-container, .invoice-container * {
+      visibility: visible; /* Make invoice-container and its content visible */
+    }
+  
+    .invoice-container {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      /* Ensure that the invoice-container takes up the entire page width */
+    }
+  
+    /* Optional: Adjust margins to ensure content fits well */
+    @page {
+      size: A4;
+      margin: 20mm; /* Adjust margins as needed */
+    }
+  
+    /* Hide the button or any other non-printable content */
+    .no-print {
+      display: none;
+    }
+  }
+  

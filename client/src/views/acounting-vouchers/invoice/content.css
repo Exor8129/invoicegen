@@ -1,0 +1,73 @@
+.itemTableheader {
+  position: relative;
+}
+
+.tableHead {
+  position: relative;
+  z-index: 1; /* Ensure the table is below the overlay */
+}
+
+.tableHead table {
+  width: 750px;
+  border-collapse: collapse;
+  font-size: 15px;
+  color: #000;
+}
+
+.tableHead th, .tableHead td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.tableHead th {
+  background-color: #f4f4f4;
+  text-align: left;
+}
+
+.sl {
+  width: 10px;
+}
+
+.fit {
+  width: fit-content;
+}
+
+.tableHead tbody td {
+  font-size: 12px;
+}
+
+.tableHead tbody tr {
+  border-left: 1px solid #000;
+  border-right: 1px solid #000;
+}
+
+.tableHead tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Hover effect */
+.item-table-body tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Overlay style to cover the viewport */
+.popup-overlay {
+  position: fixed; /* Stays in place when scrolling */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure it's above other content */
+}
+
+/* Style for the popup */
+.popup-overlay .select-container {
+  background: white; /* Background color for the popup */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for popup */
+}
