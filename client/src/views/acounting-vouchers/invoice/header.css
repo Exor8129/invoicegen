@@ -124,10 +124,15 @@
 }
 
 
-.statename{
-  padding-top: 5px;
-  padding-left: 10px;
+.statename {
+  padding-left: 5px;
+  width: 90px;
+  /* font-size: 10px; Adjust this value as needed */
+  overflow: hidden; /* Hide text that overflows the container */
+  text-overflow: ellipsis; /* Add ellipsis if the text is too long */
+  white-space: nowrap; /* Prevent the text from wrapping to the next line */
 }
+
 .code{
   padding-top: 5px;
   padding-left: 10px;

@@ -34,6 +34,21 @@ app.get('/getUserDetails', async (req, res) => {
   }
 });
 
+app.post('/addCustomer', async (req, res) => {
+  console.log('POST /addCustomer route hit');
+  try {
+    console.log('Request Body:', req.body); // Check the request body
+    const customerData = req.body;
+    const newCustomer = new Customer(customerData);
+    await newCustomer.save();
+    res.status(201).send('Customer data saved successfully');
+  } catch (err) {
+    console.error('Error:', err); // Log the error details
+    res.status(500).send('Error saving customer data');
+  }
+});
+
+
 app.listen(3001, () => {
   console.log("Server is Running");
 });
