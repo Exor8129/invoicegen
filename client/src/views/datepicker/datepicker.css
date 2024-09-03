@@ -1,12 +1,19 @@
-/* DatePicker.css */
-.date-picker-container {
-    width: 100%; /* Adjust width as needed */
-    font-size: 14px; /* Adjust font size as needed */
-  }
-  
-  .form-control {
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 8px;
-  }
-  
+
+
+.react-datepicker {
+  position: absolute;
+  z-index: 1000; /* Ensure it appears above other elements */
+}
+
+/* Optional: Additional styling to ensure the calendar popup blends with your UI */
+.react-datepicker__triangle {
+  display: none; /* Hide the triangle if it interferes */
+}
+
+.react-datepicker__header {
+  background-color: #fff; /* Customize header background */
+}
+
+.react-datepicker__day--selected {
+  background-color: #007bff; /* Customize selected day background */
+}

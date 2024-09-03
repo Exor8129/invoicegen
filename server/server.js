@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const Customer = require("./models/customer");
+const Transporter= require("./models/transporter");
 
 const app = express();
 app.use(cors());
@@ -16,6 +17,12 @@ app.get("/getUser", (req, res) => {
     .then((users) => res.json(users))
     .catch((err) => res.json(err));
 });
+
+app.get("/getTransporterNames",(req,res)=>{
+  Transporter.find()
+  .then((trans)=>res.json(trans))
+  .catch((err)=>res.json(err));
+})
 
 app.get('/getUserDetails', async (req, res) => {
   const partyName = req.query.name;
@@ -33,6 +40,18 @@ app.get('/getUserDetails', async (req, res) => {
     res.status(500).send('Error fetching party details');
   }
 });
+
+// app.get('/getTransporterNames',async(req,res)=>{
+//   console.log('GET /getTransporterNames route hit');
+//   try{
+//     const transporters=await Transporter.find({},'transporterName').exec();
+//     const transporterNames=transporters.map(t=>t.transporterName);
+//     console.log('Fetched transporter names (S):', transporterNames);
+//     res.json(transporterNames);
+//   }catch(err){
+//     res.status(500).send('Error fetching transporter oprtions');
+//   }
+// });
 
 app.post('/addCustomer', async (req, res) => {
   console.log('POST /addCustomer route hit');

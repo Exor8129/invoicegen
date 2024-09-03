@@ -1,20 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import './DatePicker.css';
+import './datepicker.css';
 
-
-const CustomDatePicker = ({ selectedDate, onDateChange, ...props }) => {
+const CustomDatePicker = ({ selectedDate, onDateChange }) => {
   return (
-    <div className="date-picker-container">
-      <DatePicker
-        selected={selectedDate}
-        onChange={date => onDateChange(date)}
-        dateFormat="MMMM d, yyyy"
-        className="form-control"
-        {...props}
-      />
-    </div>
+    <DatePicker
+      selected={selectedDate}
+      onChange={date => onDateChange(date)}
+      dateFormat="dd-MM-yyyy"
+      className="date-picker-input"
+      popperPlacement="bottom-start" // Ensure the popper (calendar) appears below the input
+    />
   );
 };
 
