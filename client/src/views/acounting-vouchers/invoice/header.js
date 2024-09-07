@@ -11,6 +11,7 @@ import CustomDatePicker from '../../datepicker/datepicker'; // Import CustomDate
 import './header.css';
 import PPopup from './popopup';
 import TPopup from './transpopup';
+import ShippingPopup from './shippopup';
 
 const Temp = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -28,6 +29,8 @@ const Temp = () => {
   const [transporter, setTransporter] = useState('');
   const [isTransPopupOpen, setIsTransPopupOpen] = useState(false);
   const [transporterOptions, setTransporterOptions] = useState([]);
+  const [isShippingPopupOpen, setIsShippingPopupOpen] = useState(false);
+  const [shippingAddresses, setShippingAddresses] = useState([]);
 
   const openPopup = () => setIsPopupOpen(true);
   const closePopup = () => setIsPopupOpen(false);
@@ -38,6 +41,9 @@ const Temp = () => {
   const openTransPopup = () => setIsTransPopupOpen(true);
   const closeTransPopup = () => setIsTransPopupOpen(false);
 
+  const openShippingPopup = () => setIsShippingPopupOpen(true);
+  const closeShippingPopup = () => setIsShippingPopupOpen(false);
+
   const fetchPartyDetails = (partyName) => {
     console.log("Selected Party:", partyName);
   
@@ -46,6 +52,7 @@ const Temp = () => {
         const Details = response.data;
         console.log("Party Details:", Details);
         setPartyDetails(Details);
+        setShippingAddresses(Details.ShipAddress);
       })
       .catch((err) => console.log("Error fetching party details:", err));
   };
@@ -53,6 +60,7 @@ const Temp = () => {
   const handlePartySelect = (value) => {
     setSelectedParty(value);
     fetchPartyDetails(value);
+    setTransporter('');
     closePopup();
   };
 
@@ -73,6 +81,14 @@ const Temp = () => {
   const handleTransporterChange = (selectedOption) => {
     setTransporter(selectedOption ? selectedOption.label : '');
     closeTransPopup();
+  };
+
+  const handleAddressSelect = (address) => {
+    setPartyDetails(prev => ({
+      ...prev,
+      PartyAddresss: address
+    }));
+    closeShippingPopup();
   };
 
   useEffect(() => {
@@ -130,11 +146,18 @@ const Temp = () => {
           <strong>DL No</strong>
           <h className="dl">{partyDetails?.DLNO || 'N/A'}</h>
         </div>
-        <div className='ship'>
+        <div className='ship' onClick={openShippingPopup}>
           <strong>Shipping Address</strong>
-          <h className="shipadd">{partyDetails?.PartyAddress || 'N/A'}</h>
+          <h className="shipadd">{partyDetails?.PartyAddresss || partyDetails?.PartyAddress || 'N/A'}</h>
         </div>
       </div>
+      {isShippingPopupOpen && (
+  <ShippingPopup
+    addresses={shippingAddresses}
+    onClose={closeShippingPopup}
+    onAddressSelect={handleAddressSelect}
+  />
+)}
 
       <div className='section3'>
         <div className='invcNum'>
