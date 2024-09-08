@@ -62,6 +62,7 @@ const Temp = () => {
     fetchPartyDetails(value);
     setTransporter('');
     closePopup();
+    openShippingPopup();
   };
 
   const handleDateChange = (date) => {

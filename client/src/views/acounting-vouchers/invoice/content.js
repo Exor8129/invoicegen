@@ -9,36 +9,39 @@ const ItemTable = () => {
   const invoiceData = {
     items: [
       {
-        description: "Product 1",
-        hsnSac: "1234",
-        tax: "18%",
-        batchNo: "B123",
-        expiry: "2025-12",
-        qty: "10",
-        rate: "100",
-        discount: "5%",
-        amount: "950",
-        cgst: "85.5",
-        sgst: "85.5",
+        description: 'Product 1',
+        hsnSac: '1234',
+        tax: '18%',
+        batchNo: 'B123',
+        expiry:2025,
+        mrp: '1800',
+        qty: '10',
+        rate: '100',
+        discount: '5%',
+        amount: '950',
+        cgst: '85.5',
+        sgst: '85.5',
       },
       {
-        description: "Ventilator Circuit Plain Adult Proximal Line MSI",
-        hsnSac: "56782322",
-        tax: "18%",
-        batchNo: "B124",
-        expiry: "2025-11",
-        qty: "5",
-        rate: "200",
-        discount: "10%",
-        amount: "900",
-        cgst: "81",
-        sgst: "81",
+        description: 'Ventilator Circuit Plain Adult Proximal Line MSI',
+        hsnSac: '56782322',
+        tax: '18%',
+        batchNo: 'LTS9A22025',
+        expiry:'2025',
+        mrp: '2450',
+        qty: '5',
+        rate: '200',
+        discount: '10%',
+        amount: '900',
+        cgst: '81',
+        sgst: '81',
       },
     ],
   };
 
   const handleCellClick = (index) => {
-    if (index === 0) { // Example: Show popup for the first cell of the first row
+    if (index === 0) {
+      // Example: Show popup for the first cell of the first row
       setShowPopup(true);
     }
   };
@@ -74,8 +77,8 @@ const ItemTable = () => {
               <th>Item Description</th>
               <th>HSN Code</th>
               <th>Tax</th>
-              <th>Batch No</th>
-              <th>Expiry</th>
+              {/* <th>Batch No</th> */}
+              <th>MRP</th>
               <th>Qty</th>
               <th>Rate</th>
               <th>Disc</th>
@@ -88,11 +91,25 @@ const ItemTable = () => {
             {invoiceData.items.map((item, rowIndex) => (
               <tr key={rowIndex}>
                 <td>{rowIndex + 1}</td>
-                <td onClick={() => handleCellClick(rowIndex)}>{item.description}</td>
+                <td onClick={() => handleCellClick(rowIndex)}>
+                  {item.description}
+                  <div className="item-details">
+                    {item.expiry ? (
+                      <div>
+                        <span className='expiry'>Expiry:</span> <span className='expiry'>{item.expiry}</span>
+                      </div>
+                    ) : null}
+                    {item.batchNo ? (
+                      <div>
+                        <span className='batch'>Batch No:</span> <span className='batch'>{item.batchNo}</span>
+                      </div>
+                    ) : null}
+                  </div>
+                </td>
                 <td>{item.hsnSac}</td>
                 <td>{item.tax}</td>
-                <td>{item.batchNo}</td>
-                <td>{item.expiry}</td>
+                {/* <td>{item.batchNo}</td> */}
+                <td>{item.mrp}</td>
                 <td>{item.qty}</td>
                 <td>{item.rate}</td>
                 <td>{item.discount}</td>

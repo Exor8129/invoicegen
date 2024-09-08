@@ -1,0 +1,97 @@
+.ticket-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .ticket-popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .close-btn {
+    background: #f44;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .popup-heading {
+    margin-bottom: 20px;
+  }
+  
+  .product-list {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  .product-list li {
+    margin-bottom: 10px;
+  }
+  
+
+  
+  .input-group {
+    display: flex;
+    align-items: center;
+  }
+  
+  .input-group .form-select {
+    margin-right: 1rem; /* Adjust spacing as needed */
+  }
+  
+  .input-group .form-control {
+    margin-right: 1rem; /* Adjust spacing as needed */
+  }
+  
+  .input-group .btn {
+    margin-left: 0.5rem; /* Adjust spacing as needed */
+  }
+  
+  .product-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .product-list li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .product-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .product-list li {
+    position: relative;
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .remove-btn {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: none;
+  }
+  
+  .product-list li:hover .remove-btn {
+    display: inline-block;
+  }
+  

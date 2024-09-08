@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const Customer = require("./models/customer");
 const Transporter= require("./models/transporter");
+const Item=require("./models/items");
 
 const app = express();
 app.use(cors());
@@ -21,6 +22,12 @@ app.get("/getUser", (req, res) => {
 app.get("/getTransporterNames",(req,res)=>{
   Transporter.find()
   .then((trans)=>res.json(trans))
+  .catch((err)=>res.json(err));
+})
+
+app.get("/getItemNames",(req,res)=>{
+  Item.find()
+  .then((items)=>res.json(items))
   .catch((err)=>res.json(err));
 })
 

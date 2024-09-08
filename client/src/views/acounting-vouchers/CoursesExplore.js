@@ -1,20 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react'; // Import React only once
 import { Row, Col, Card, Badge } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import Rating from 'react-rating';
 import HtmlHead from 'components/html-head/HtmlHead';
 import BreadcrumbList from 'components/breadcrumb-list/BreadcrumbList';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
-import Header from './invoice/header'
-import ItemTable from './invoice/content'
-import FooterTable from './invoice/footer'
+import Header from './invoice/header';
+import ItemTable from './invoice/content';
+import FooterTable from './invoice/footer';
 import Invoice from './invoice/invoice';
+import TicketPopup from './ticketpopup';
 
 const CoursesExplore = () => {
   const title = 'Sales';
   const description = 'Invoice Generator Sales Page';
+  const [showPopup, setShowPopup] = useState(false);
 
   const breadcrumbs = [{ to: '', text: 'Home' }];
+  const ticketData = {
+    partyName: 'Gracemed',
+    products: [
+      
+    ],
+    assignee: 'John Doe',
+  };
+
+  const handleTicketClick = () => {
+    setShowPopup(true);
+  };
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
+  };
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -33,169 +50,84 @@ const CoursesExplore = () => {
 
       {/* Popular Start */}
       <div className="d-flex justify-content-between">
-        <h2 className="small-title">Recent Sales</h2>
+        <h2 className="small-title">Recent Tickets</h2>
+        <div className="btn btn-icon btn-icon-end btn-xs btn-background p-0">
+          <span className="align-bottom" onClick={handleTicketClick}>New Ticket</span>
+        </div>
         <NavLink to="/courses/list" className="btn btn-icon btn-icon-end btn-xs btn-background p-0">
           <span className="align-bottom">View All</span> <CsLineIcons icon="chevron-right" className="align-middle" size="12" />
         </NavLink>
       </div>
       <Row className="row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3 mb-5">
         <Col>
-          <Card className="h-100">
-            {/* <Card.Img src="/img/product/small/product-1.webp" className="card-img-top sh-22" alt="card image" /> */}
-            <Card.Body>
+          <Card className="h-100 position-relative">
+            {/* Unique Ticket Number */}
+            <div className="position-absolute top-0 end-0 p-3">
+              <span className="badge bg-primary">Ticket #12345</span>
+            </div>
+
+            <Card.Body className="text-center">
               <h5 className="heading mb-0">
                 <NavLink to="/courses/detail" className="body-link stretched-link">
-                  Party Name : Gracemed
-                </NavLink>
-                
-              </h5>
-              <h5 className="heading mb-0">
-                
-                <NavLink to="/courses/detail" className="body-link stretched-link">
-                  Invoice Number : 213/24-25
-                </NavLink>
-               
-              </h5>
-              <h5 className="heading mb-0">
-                
-                <NavLink to="/courses/detail" className="body-link stretched-link">
-                  Invoice Amount : 2432/-
+                  Party Name: <strong>Gracemed</strong>
                 </NavLink>
               </h5>
+
+              <div style={{ marginTop: '1rem' }}>
+                <h6 style={{ textAlign: 'left' }} className="heading">
+                  Products
+                </h6>
+                <ol style={{ listStylePosition: 'inside', paddingLeft: '0', margin: '0', textAlign: 'left' }} className="list-group">
+                  {ticketData.products.map(
+                    (
+                      products,
+                      index // Updated to `products`
+                    ) => (
+                      <li key={index} style={{ marginBottom: '0.5rem', textAlign: 'left' }}>
+                        <strong>{products.productName}:</strong> {products.qty} pcs
+                      </li>
+                    )
+                  )}
+                </ol>
+              </div>
             </Card.Body>
-            <Card.Footer className="border-0 pt-0">
-              <div className="mb-2">
-                <Rating
-                  initialRating={5}
-                  readonly
-                  emptySymbol={<i className="cs-star text-primary" />}
-                  fullSymbol={<i className="cs-star-full text-primary" />}
-                />
-                <div className="text-muted d-inline-block text-small align-text-top ms-1">(114)</div>
-              </div>
-              <div className="card-text mb-0">
-                <div className="text-muted text-overline text-small">
-                  <del>$ 24.60</del>
-                </div>
-                <div>$ 18.90</div>
-              </div>
+
+            <Card.Footer className="border-0 pt-3 text-center">
+              <h6 className="heading mb-2">Assigned Person:</h6>
+              <p className="mb-0">
+                <strong>John Doe</strong>
+              </p>
             </Card.Footer>
           </Card>
         </Col>
-        <Col>
-          <Card className="h-100">
-            <Card.Img src="/img/product/small/product-2.webp" className="card-img-top sh-22" alt="card image" />
-            <Card.Body>
-              <h5 className="heading mb-0">
-                <NavLink to="/courses/detail" className="body-link stretched-link">
-                  Recipes for Sweet and Healty Treats
-                </NavLink>
-              </h5>
-            </Card.Body>
-            <Card.Footer className="border-0 pt-0">
-              <div className="mb-2">
-                <Rating
-                  initialRating={5}
-                  readonly
-                  emptySymbol={<i className="cs-star text-primary" />}
-                  fullSymbol={<i className="cs-star-full text-primary" />}
-                />
-                <div className="text-muted d-inline-block text-small align-text-top ms-1">(84)</div>
-              </div>
-              <div className="card-text mb-0">
-                <div className="text-muted text-overline text-small">
-                  <del>$ 33.25</del>
-                </div>
-                <div>$ 22.15</div>
-              </div>
-            </Card.Footer>
-          </Card>
-        </Col>
-        <Col>
-          <Card className="h-100">
-            <Card.Img src="/img/product/small/product-3.webp" className="card-img-top sh-22" alt="card image" />
-            <Card.Body>
-              <h5 className="heading mb-0">
-                <NavLink to="/courses/detail" className="body-link stretched-link">
-                  Better Ways to Mix Dough for the Molds
-                </NavLink>
-              </h5>
-            </Card.Body>
-            <Card.Footer className="border-0 pt-0">
-              <div className="mb-2">
-                <Rating
-                  initialRating={5}
-                  readonly
-                  emptySymbol={<i className="cs-star text-primary" />}
-                  fullSymbol={<i className="cs-star-full text-primary" />}
-                />
-                <div className="text-muted d-inline-block text-small align-text-top ms-1">(117)</div>
-              </div>
-              <div className="card-text mb-0">
-                <div className="text-muted text-overline text-small">
-                  <del>$ 28.15</del>
-                </div>
-                <div>$ 22.50</div>
-              </div>
-            </Card.Footer>
-          </Card>
-        </Col>
-        <Col>
-          <Card className="h-100">
-            <Card.Img src="/img/product/small/product-4.webp" className="card-img-top sh-22" alt="card image" />
-            <Card.Body>
-              <h5 className="heading mb-0">
-                <NavLink to="/courses/detail" className="body-link stretched-link">
-                  Carrot Cake Gingerbread
-                </NavLink>
-              </h5>
-            </Card.Body>
-            <Card.Footer className="border-0 pt-0">
-              <div className="mb-2">
-                <Rating
-                  initialRating={5}
-                  readonly
-                  emptySymbol={<i className="cs-star text-primary" />}
-                  fullSymbol={<i className="cs-star-full text-primary" />}
-                />
-                <div className="text-muted d-inline-block text-small align-text-top ms-1">(53)</div>
-              </div>
-              <div className="card-text mb-0">
-                <div className="text-muted text-overline text-small">
-                  <del>$ 16.75</del>
-                </div>
-                <div>$ 12.50</div>
-              </div>
-            </Card.Footer>
-          </Card>
-        </Col>
+        {showPopup && <TicketPopup onClose={handleClosePopup} partyName={ticketData.partyName} products={ticketData.products} assignee={ticketData.assignee} />}
       </Row>
       {/* Popular End */}
 
       {/* Trending Start */}
       <div className="d-flex justify-content-between">
-  <h2 className="small-title">New Invoice</h2>
-</div>
-<Row className="row-cols-1 g-3 mb-5">
-  <Col>
-    <Card className="h-100" style={{ backgroundColor: '#fff', color: '#fff' }}>
-      <Card.Body className="p-5">
-        {/* Here you can place your invoice UI content */}
-        <div className="d-flex flex-column align-items-center">
-          <h3 className="mb-4">Invoice</h3>
-          {/* Add your invoice content here */}
-          <div className="border border-light rounded p-4" style={{ width: '210mm', height: '297mm' }}>
-            <div><Invoice/>
-            
-            </div>
-            <h5 className="text-light">Invoice Content</h5>
-            {/* Additional invoice details */}
-          </div>
-        </div>
-      </Card.Body>
-    </Card>
-  </Col>
-</Row>
+        <h2 className="small-title">New Invoice</h2>
+      </div>
+      <Row className="row-cols-1 g-3 mb-5">
+        <Col>
+          <Card className="h-100" style={{ backgroundColor: '#fff', color: '#fff' }}>
+            <Card.Body className="p-5">
+              {/* Here you can place your invoice UI content */}
+              <div className="d-flex flex-column align-items-center">
+                <h3 className="mb-4">Invoice</h3>
+                {/* Add your invoice content here */}
+                <div className="border border-light rounded p-4" style={{ width: '210mm', height: '297mm' }}>
+                  <div>
+                    <Invoice />
+                  </div>
+                  <h5 className="text-light">Invoice Content</h5>
+                  {/* Additional invoice details */}
+                </div>
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
       {/* Trending End */}
 
       {/* Paths Start */}

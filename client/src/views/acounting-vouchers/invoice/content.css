@@ -71,3 +71,24 @@
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for popup */
 }
+
+.expiry{
+  font-style: italic;
+  color: cadetblue;
+  font-size: 10px;
+}
+
+.batch{
+  margin-left: 5px;
+  font-style: italic;
+  color: cadetblue;
+  font-size: 10px;
+}
+
+.item-details{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-items: center;
+  align-items: center;
+}
