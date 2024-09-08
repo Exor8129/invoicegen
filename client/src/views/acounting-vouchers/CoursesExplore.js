@@ -1,29 +1,37 @@
-import React, { useState } from 'react'; // Import React only once
+import React, { useState, useEffect } from 'react'; 
+import axios from 'axios';
 import { Row, Col, Card, Badge } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
-import Rating from 'react-rating';
 import HtmlHead from 'components/html-head/HtmlHead';
 import BreadcrumbList from 'components/breadcrumb-list/BreadcrumbList';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
-import Header from './invoice/header';
-import ItemTable from './invoice/content';
-import FooterTable from './invoice/footer';
 import Invoice from './invoice/invoice';
 import TicketPopup from './ticketpopup';
+import './CoursesExplore.css'
 
 const CoursesExplore = () => {
   const title = 'Sales';
   const description = 'Invoice Generator Sales Page';
   const [showPopup, setShowPopup] = useState(false);
+  const [tickets, setTickets] = useState([]);
+  const [highestTicketNumber, setHighestTicketNumber] = useState(null);
 
   const breadcrumbs = [{ to: '', text: 'Home' }];
-  const ticketData = {
-    partyName: 'Gracemed',
-    products: [
-      
-    ],
-    assignee: 'John Doe',
-  };
+  
+  useEffect(() => {
+    axios.get('http://localhost:3001/tickets')
+      .then(response => {
+        const sortedTickets = response.data.sort((a, b) => b.ticketNumber - a.ticketNumber);
+        setTickets(sortedTickets);
+        const highestNumber = sortedTickets.length > 0 
+          ? sortedTickets[0].ticketNumber
+          : 0;
+        setHighestTicketNumber(highestNumber);
+      })
+      .catch(error => {
+        console.error('Error fetching tickets:', error);
+      });
+  }, []);
 
   const handleTicketClick = () => {
     setShowPopup(true);
@@ -32,6 +40,10 @@ const CoursesExplore = () => {
   const handleClosePopup = () => {
     setShowPopup(false);
   };
+
+  // Get the top 4 tickets
+  const topTickets = tickets.slice(0, 4);
+
   return (
     <>
       <HtmlHead title={title} description={description} />
@@ -59,48 +71,70 @@ const CoursesExplore = () => {
         </NavLink>
       </div>
       <Row className="row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3 mb-5">
-        <Col>
-          <Card className="h-100 position-relative">
-            {/* Unique Ticket Number */}
-            <div className="position-absolute top-0 end-0 p-3">
-              <span className="badge bg-primary">Ticket #12345</span>
-            </div>
+        {topTickets.length > 0 ? topTickets.map(ticket => (
+          <Col key={ticket.ticketNumber}>
+            <Card className="cards h-100 position-relative">
+              {/* Unique Ticket Number */}
+              <div className="position-relative">
+  {/* Container for badges */}
+  <div className="d-flex justify-content-between align-items-center p-3">
+    {/* Badge on the left */}
+    <span className="badge bg-danger">Status : {ticket.ticketStatus}</span>
+    
+    {/* Badge on the right */}
+    <span className="badge bg-primary">Ticket #{ticket.ticketNumber}</span>
+  </div>
+</div>
 
-            <Card.Body className="text-center">
-              <h5 className="heading mb-0">
-                <NavLink to="/courses/detail" className="body-link stretched-link">
-                  Party Name: <strong>Gracemed</strong>
-                </NavLink>
-              </h5>
+              <Card.Body className="text-center">
+                <h className="pname ">
+                  <NavLink to="/courses/detail" className="body">
+                    Party Name: <strong>{ticket.partyName}</strong>
+                  </NavLink>
+                </h>
 
-              <div style={{ marginTop: '1rem' }}>
-                <h6 style={{ textAlign: 'left' }} className="heading">
-                  Products
-                </h6>
-                <ol style={{ listStylePosition: 'inside', paddingLeft: '0', margin: '0', textAlign: 'left' }} className="list-group">
-                  {ticketData.products.map(
-                    (
-                      products,
-                      index // Updated to `products`
-                    ) => (
-                      <li key={index} style={{ marginBottom: '0.5rem', textAlign: 'left' }}>
-                        <strong>{products.productName}:</strong> {products.qty} pcs
-                      </li>
-                    )
-                  )}
-                </ol>
-              </div>
-            </Card.Body>
+                <div className='products'>
+                  <h className="heading">
+                    Products
+                  </h>
+                  <ol  className="list-group">
+                    {ticket.products.map(
+                      (product, index) => (
+                        <li key={index} style={{ marginBottom: '0.1rem', textAlign: 'left' }}>
+                          <strong className="qty">{product.productName}:</strong > {product.quantity} Nos
+                        </li>
+                      )
+                    )}
+                  </ol>
+                </div>
+              </Card.Body>
 
-            <Card.Footer className="border-0 pt-3 text-center">
-              <h6 className="heading mb-2">Assigned Person:</h6>
-              <p className="mb-0">
-                <strong>John Doe</strong>
-              </p>
-            </Card.Footer>
-          </Card>
-        </Col>
-        {showPopup && <TicketPopup onClose={handleClosePopup} partyName={ticketData.partyName} products={ticketData.products} assignee={ticketData.assignee} />}
+              <Card.Footer className='footer' >
+                <div className="card-footer">
+                <h className="headings">Assigned Person:</h>
+                <p className="assinee">
+                  <strong>{ticket.assignee}</strong>
+                </p>
+                </div>
+                <div className='buttons'>
+                <button type="button" className="btn btn-primary btn-sm">Print</button>
+                
+                </div>
+              </Card.Footer>
+            </Card>
+          </Col>
+        )) : (
+          <Col>No tickets available</Col>
+        )}
+        {showPopup && (
+          <TicketPopup
+            onClose={handleClosePopup}
+            partyName={topTickets.length > 0 ? topTickets[0].partyName : ''}
+            products={topTickets.length > 0 ? topTickets[0].products : []}
+            assignee={topTickets.length > 0 ? topTickets[0].assignee : ''}
+            highestTicketNumber={highestTicketNumber}
+          />
+        )}
       </Row>
       {/* Popular End */}
 

@@ -1,0 +1,55 @@
+.products {
+  position: relative;
+  margin-top: -6px;
+  margin-left: -25px;
+  width: 250px;
+}
+
+.heading {
+  margin-left: -200px;
+  font-size: 12px;
+  font-style: italic;
+  text-decoration: underline;
+}
+
+.cards {
+  /* background-color: rgb(246, 237, 227); */
+  border-radius: 10px;
+}
+
+.pname {
+  font-size: 12px;
+  /* background-color: blueviolet; */
+}
+
+.list-group {
+  font-size: 10px;
+}
+
+.qty {
+  margin-right: 5px;
+}
+
+.headings {
+
+  font-size: 10px;
+}
+
+.card-footer {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: -35px;
+}
+.assinee {
+  font-size: 10px;
+  margin-left: 5px;
+}
+.footer {
+
+  display: flex;
+  flex-direction: column;
+}
+.buttons{
+    
+    margin-left: 80px;
+}

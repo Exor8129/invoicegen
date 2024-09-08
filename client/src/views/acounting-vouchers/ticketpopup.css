@@ -94,4 +94,22 @@
   .product-list li:hover .remove-btn {
     display: inline-block;
   }
+
+  .headcontainer{
+    display: flex;
+    flex-direction: row;
+  }
+
+  .ticketnum{
+    position:fixed;
+    background-color:#6894c5;
+    border-radius: 5px;
+    width: 100px;
+    height: 25px;
+    color: #fff;
+    align-items: center;
+    justify-content: center;
+    margin-left: 350px;
+    padding-left: 10px;
+  }
   

@@ -4,6 +4,7 @@ const cors = require("cors");
 const Customer = require("./models/customer");
 const Transporter= require("./models/transporter");
 const Item=require("./models/items");
+const Ticket=require("./models/ticket")
 
 const app = express();
 app.use(cors());
@@ -48,17 +49,57 @@ app.get('/getUserDetails', async (req, res) => {
   }
 });
 
-// app.get('/getTransporterNames',async(req,res)=>{
-//   console.log('GET /getTransporterNames route hit');
-//   try{
-//     const transporters=await Transporter.find({},'transporterName').exec();
-//     const transporterNames=transporters.map(t=>t.transporterName);
-//     console.log('Fetched transporter names (S):', transporterNames);
-//     res.json(transporterNames);
-//   }catch(err){
-//     res.status(500).send('Error fetching transporter oprtions');
-//   }
-// });
+app.get('/getHighestTicketNumber', async (req, res) => {
+  try {
+    const highestTicket = await Ticket.findOne().sort({ ticketNumber: -1 }).exec();
+    const highestNumber = highestTicket ? highestTicket.ticketNumber : 0;
+    console.log('Highest ticket number:', highestNumber);
+    res.json({ highestTicketNumber: highestNumber });
+  } catch (error) {
+    console.error('Error fetching highest ticket number:', error);
+    res.status(500).json({ message: 'Error fetching highest ticket number' });
+  }
+});
+
+// API endpoint to fetch all tickets
+app.get('/tickets', async (req, res) => {
+  try {
+    const tickets = await Ticket.find().exec();
+    res.json(tickets);
+  } catch (error) {
+    console.error('Error fetching tickets:', error);
+    res.status(500).json({ message: 'Error fetching tickets' });
+  }
+});
+
+// app.use(bodyParser.json());
+
+app.post('/ticketData', async (req, res) => {
+  try {
+    const ticketData = req.body;
+
+    // Get the next ticket number
+    const nextTicketNumber = await Ticket.getNextTicketNumber();
+
+    // Create a new Ticket instance with the ticket number
+    const newTicket = new Ticket({
+      ...ticketData,
+      ticketNumber: nextTicketNumber,
+      ticketStatus: 'New' // Default status
+    });
+
+    // Save the ticket to the database
+    await newTicket.save();
+
+    res.status(201).json({ 
+      message: 'Ticket created successfully', 
+      ticketNumber: nextTicketNumber 
+    });
+  } catch (error) {
+    console.error('Error saving ticket:', error);
+    res.status(500).json({ message: 'Error saving ticket' });
+  }
+});
 
 app.post('/addCustomer', async (req, res) => {
   console.log('POST /addCustomer route hit');
