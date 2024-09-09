@@ -1,5 +1,6 @@
-import React, { useState, forwardRef } from 'react';
+import React, { useState, useEffect, forwardRef } from 'react';
 import Select from 'react-select';
+import axios from 'axios';
 import './SelectItem.css'; // Ensure this CSS file exists and is properly linked
 
 const customStyles = {
@@ -9,9 +10,26 @@ const customStyles = {
   }),
 };
 
-const SelectItem = forwardRef(({ options, onSelect }, ref) => {
+const SelectItem = forwardRef(({ onSelect, onClose }, ref) => {
+  const [options, setOptions] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [showSearch, setShowSearch] = useState(true);
+
+  useEffect(() => {
+    // Fetch item names from API
+    axios
+      .get('http://localhost:3001/getItemNames')
+      .then((response) => {
+        const formattedOptions = response.data.map((item) => ({
+          value: item.ITEM,
+          label: item.ITEM,
+        }));
+        setOptions(formattedOptions);
+      })
+      .catch((error) => {
+        console.error('Error fetching item names:', error);
+      });
+  }, []);
 
   const handleIconClick = () => {
     setShowForm(true);
@@ -26,6 +44,15 @@ const SelectItem = forwardRef(({ options, onSelect }, ref) => {
     setShowSearch(true);
   };
 
+  // Ensure `onSelect` is defined and is a function
+  const handleChange = (option) => {
+    if (typeof onSelect === 'function') {
+      onSelect(option ? option.value : '');
+    } else {
+      console.error('onSelect is not a function');
+    }
+  };
+
   return (
     <div className="select-container">
       {showSearch && (
@@ -34,7 +61,7 @@ const SelectItem = forwardRef(({ options, onSelect }, ref) => {
             className="search-box"
             ref={ref}
             options={options}
-            onChange={(option) => onSelect(option ? option.value : '')}
+            onChange={handleChange} // Use handleChange here
             placeholder="Search for an item"
             styles={customStyles}
           />
@@ -46,38 +73,11 @@ const SelectItem = forwardRef(({ options, onSelect }, ref) => {
       {showForm && (
         <div className="form-popup">
           <form className="row g-3" onSubmit={handleFormSubmit}>
-            <div className="col-12">
-              <label htmlFor="productName" className="form-label">Product Name</label>
-              <input type="text" className="form-control" id="productName" />
-            </div>
-            <div className="col-12">
-              <label htmlFor="hsnCode" className="form-label">HSN Code</label>
-              <input type="text" className="form-control" id="hsnCode" />
-            </div>
-            <div className="col-12">
-              <label htmlFor="taxRate" className="form-label">Tax Rate</label>
-              <select id="taxRate" className="form-control">
-                <option value="5%">5%</option>
-                <option value="12%">12%</option>
-                <option value="18%">18%</option>
-                <option value="28%">28%</option>
-              </select>
-            </div>
-            
-            <div className="col-12">
-              <label htmlFor="mrp" className="form-label">MRP</label>
-              <input type="text" className="form-control" id="mrp" />
-            </div>
-            <div className="col-12">
-              <label htmlFor="gdl" className="form-label">GDL (Godown Provided Location)</label>
-              <input type="text" className="form-control" id="gdl" />
-            </div>
-            <div className="col-12">
-              <button type="submit" className="btn btn-primary">Save</button>
-            </div>
+            {/* Your form fields */}
           </form>
         </div>
       )}
+      <button type='button' onClick={onClose} className="btn btn-secondary">Close</button>
     </div>
   );
 });

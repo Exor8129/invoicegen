@@ -1,59 +1,78 @@
 import React, { useState, useRef, useEffect } from 'react';
-import SelectItem from './selectItem';
+import axios from 'axios';
+import SelectItem from './selectItem'; // Ensure the correct path
 import './content.css';
 
+// Function to fetch item details
+const fetchItemDetails = async (itemName) => {
+  try {
+    const response = await axios.get(`http://localhost:3001/getItemDetails?name=${itemName}`);
+    return response.data; // Return item details
+  } catch (err) {
+    console.error('Error fetching item details:', err);
+    return null; // Return null if there's an error
+  }
+};
+
 const ItemTable = () => {
+  const [invoiceData, setInvoiceData] = useState({
+    items: [], // Initialize as an empty array
+  });
   const [showPopup, setShowPopup] = useState(false);
-  const popupRef = useRef(null);
+  const [popupRef, setPopupRef] = useState(null);
 
-  const invoiceData = {
-    items: [
-      {
-        description: 'Product 1',
-        hsnSac: '1234',
-        tax: '18%',
-        batchNo: 'B123',
-        expiry:2025,
-        mrp: '1800',
-        qty: '10',
-        rate: '100',
-        discount: '5%',
-        amount: '950',
-        cgst: '85.5',
-        sgst: '85.5',
-      },
-      {
-        description: 'Ventilator Circuit Plain Adult Proximal Line MSI',
-        hsnSac: '56782322',
-        tax: '18%',
-        batchNo: 'LTS9A22025',
-        expiry:'2025',
-        mrp: '2450',
-        qty: '5',
-        rate: '200',
-        discount: '10%',
-        amount: '900',
-        cgst: '81',
-        sgst: '81',
-      },
-    ],
+  // Function to open the popup
+  const handleCellClick = () => {
+    setShowPopup(true);
   };
 
-  const handleCellClick = (index) => {
-    if (index === 0) {
-      // Example: Show popup for the first cell of the first row
-      setShowPopup(true);
-    }
-  };
-
+  // Function to close the popup
   const handleClosePopup = () => {
     setShowPopup(false);
   };
 
+  // Function to handle item selection from the popup
+  const handleSelect = async (item) => {
+    const itemDetails = await fetchItemDetails(item);
+    if (itemDetails) {
+      setInvoiceData((prevData) => ({
+        items: [
+          ...prevData.items,
+          {
+            description: itemDetails.ITEM,
+            hsnSac: itemDetails.HSN_CODE,
+            tax: `${itemDetails.TAX_RATE}%`,
+            batchNo: itemDetails.GDL,
+            expiry: '', // You can modify this if needed
+            mrp: itemDetails.MRP,
+            qty: '',
+            rate: '',
+            discount: '',
+            amount: '',
+            cgst: '',
+            sgst: '',
+          },
+        ],
+      }));
+    }
+    // handleClosePopup();
+  };
+
+  // Function to handle input changes
+  const handleInputChange = (e, index, field) => {
+    const { value } = e.target;
+    setInvoiceData((prevData) => {
+      const updatedItems = [...prevData.items];
+      updatedItems[index] = { ...updatedItems[index], [field]: value };
+      return { ...prevData, items: updatedItems };
+    });
+  };
+
+  // Handle click outside of popup to close it
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (popupRef.current && !popupRef.current.contains(event.target)) {
-        console.log('Click outside detected'); // Log only when clicking outside
+      if (popupRef && !popupRef.contains(event.target)) {
+        console.log('Click outside detected');
         handleClosePopup();
       }
     };
@@ -65,19 +84,23 @@ const ItemTable = () => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [showPopup]);
+  }, [showPopup, popupRef]);
 
   return (
     <div className="itemTableheader">
       <div className="tableHead">
         <table>
           <thead>
+            {/* <tr>
+              <th colSpan="11" onClick={handleCellClick} style={{ cursor: 'pointer', textAlign: 'center' }}>
+                Click here to add an item
+              </th>
+            </tr> */}
             <tr>
               <th>Sl No</th>
-              <th>Item Description</th>
+              <th onClick={handleCellClick} style={{ cursor: 'pointer', textAlign: 'center' }}>Item Description</th>
               <th>HSN Code</th>
               <th>Tax</th>
-              {/* <th>Batch No</th> */}
               <th>MRP</th>
               <th>Qty</th>
               <th>Rate</th>
@@ -88,31 +111,38 @@ const ItemTable = () => {
             </tr>
           </thead>
           <tbody className="item-table-body">
+            {/* Actual Data Rows */}
             {invoiceData.items.map((item, rowIndex) => (
               <tr key={rowIndex}>
                 <td>{rowIndex + 1}</td>
-                <td onClick={() => handleCellClick(rowIndex)}>
-                  {item.description}
-                  <div className="item-details">
-                    {item.expiry ? (
-                      <div>
-                        <span className='expiry'>Expiry:</span> <span className='expiry'>{item.expiry}</span>
-                      </div>
-                    ) : null}
-                    {item.batchNo ? (
-                      <div>
-                        <span className='batch'>Batch No:</span> <span className='batch'>{item.batchNo}</span>
-                      </div>
-                    ) : null}
-                  </div>
-                </td>
+                <td>{item.description}</td>
                 <td>{item.hsnSac}</td>
                 <td>{item.tax}</td>
-                {/* <td>{item.batchNo}</td> */}
                 <td>{item.mrp}</td>
-                <td>{item.qty}</td>
-                <td>{item.rate}</td>
-                <td>{item.discount}</td>
+                <td>
+                  <input
+                    className='input-field'
+                    type="number"
+                    value={item.qty}
+                    onChange={(e) => handleInputChange(e, rowIndex, 'qty')}
+                  />
+                </td>
+                <td>
+                  <input
+                    className='input-field-Rate'
+                    type="number"
+                    value={item.rate}
+                    onChange={(e) => handleInputChange(e, rowIndex, 'rate')}
+                  />
+                </td>
+                <td>
+                  <input
+                    className='input-field'
+                    type="number"
+                    value={item.discount}
+                    onChange={(e) => handleInputChange(e, rowIndex, 'discount')}
+                  />
+                </td>
                 <td>{item.cgst}</td>
                 <td>{item.sgst}</td>
                 <td>{item.amount}</td>
@@ -124,8 +154,8 @@ const ItemTable = () => {
 
       {showPopup && (
         <div className="popup-overlay">
-          <div className="popup-content" ref={popupRef}>
-            <SelectItem onClose={handleClosePopup} />
+          <div className="popup-content" ref={(ref) => setPopupRef(ref)}>
+            <SelectItem onSelect={handleSelect} onClose={handleClosePopup} />
           </div>
         </div>
       )}

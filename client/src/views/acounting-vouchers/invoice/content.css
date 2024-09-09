@@ -92,3 +92,17 @@
   justify-items: center;
   align-items: center;
 }
+
+.input-field{
+ border: none;
+ fill: none;
+background: transparent;
+ width:40px;
+}
+
+.input-field-Rate{
+  border: none;
+  fill: none;
+ background: transparent;
+  width:80px;
+}

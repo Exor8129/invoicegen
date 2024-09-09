@@ -48,7 +48,20 @@ app.get('/getUserDetails', async (req, res) => {
     res.status(500).send('Error fetching party details');
   }
 });
+app.get('/getItemDetails', async (req, res) => {
+  const { name } = req.query; // Query parameter
 
+  try {
+    const item = await Item.findOne({ ITEM: name }); // Replace with your query criteria
+    if (item) {
+      res.json(item);
+    } else {
+      res.status(404).json({ message: 'Item not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
+  }
+});
 app.get('/getHighestTicketNumber', async (req, res) => {
   try {
     const highestTicket = await Ticket.findOne().sort({ ticketNumber: -1 }).exec();
