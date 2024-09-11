@@ -24,6 +24,26 @@
   text-align: left;
 }
 
+/* Align columns */
+.tableHead th.item-col, 
+.tableHead td.item-col {
+  width: 500px; /* Adjust width as needed */
+  text-align: left; /* Align item description to the left */
+}
+
+.tableHead th.qty-column, 
+.tableHead td.qty-column {
+  width: 30px; /* Adjust width as needed */
+  text-align: center; /* Center align quantity */
+}
+
+.tableHead th.rate-column, 
+.tableHead td.rate-column {
+  width: 40px; /* Adjust width as needed */
+  text-align: center; /* Center align rate */
+}
+
+/* Other styles */
 .sl {
   width: 10px;
 }
@@ -72,20 +92,20 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for popup */
 }
 
-.expiry{
+.expiry {
   font-style: italic;
   color: cadetblue;
   font-size: 10px;
 }
 
-.batch{
+.batch {
   margin-left: 5px;
   font-style: italic;
   color: cadetblue;
   font-size: 10px;
 }
 
-.item-details{
+.item-details {
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -93,16 +113,62 @@
   align-items: center;
 }
 
-.input-field{
- border: none;
- fill: none;
-background: transparent;
- width:40px;
-}
-
-.input-field-Rate{
+.input-field {
   border: none;
   fill: none;
- background: transparent;
-  width:80px;
+  background: transparent;
+  width: 35px;
 }
+
+.input-field-Rate {
+  border: none;
+  fill: none;
+  background: transparent;
+  width: 40px;
+}
+
+.input-field-disc {
+  border: none;
+  fill: none;
+  background: transparent;
+  width: 30px;
+}
+
+.input-field-Rate::-webkit-inner-spin-button,
+.input-field-Rate::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input-field::-webkit-inner-spin-button,
+.input-field::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input-field-disc::-webkit-inner-spin-button,
+.input-field-disc::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Position and style the delete icon */
+.delete-icon {
+  position: fixed;
+  right: 20px; /* Adjust as needed */
+  bottom: 20px; /* Adjust as needed */
+  background: #f44336; /* Red background for delete button */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  z-index: 1000; /* Ensure it's above other content */
+}
+
+/* Style for selected row */
+.selected-row {
+  background-color: #f1f1f1;
+}
+

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Row, Col, Card, Badge } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
@@ -7,7 +7,7 @@ import BreadcrumbList from 'components/breadcrumb-list/BreadcrumbList';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import Invoice from './invoice/invoice';
 import TicketPopup from './ticketpopup';
-import './CoursesExplore.css'
+import './CoursesExplore.css';
 
 const CoursesExplore = () => {
   const title = 'Sales';
@@ -17,18 +17,17 @@ const CoursesExplore = () => {
   const [highestTicketNumber, setHighestTicketNumber] = useState(null);
 
   const breadcrumbs = [{ to: '', text: 'Home' }];
-  
+
   useEffect(() => {
-    axios.get('http://localhost:3001/tickets')
-      .then(response => {
+    axios
+      .get('http://localhost:3001/tickets')
+      .then((response) => {
         const sortedTickets = response.data.sort((a, b) => b.ticketNumber - a.ticketNumber);
         setTickets(sortedTickets);
-        const highestNumber = sortedTickets.length > 0 
-          ? sortedTickets[0].ticketNumber
-          : 0;
+        const highestNumber = sortedTickets.length > 0 ? sortedTickets[0].ticketNumber : 0;
         setHighestTicketNumber(highestNumber);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error fetching tickets:', error);
       });
   }, []);
@@ -64,66 +63,67 @@ const CoursesExplore = () => {
       <div className="d-flex justify-content-between">
         <h2 className="small-title">Recent Tickets</h2>
         <div className="btn btn-icon btn-icon-end btn-xs btn-background p-0">
-          <span className="align-bottom" onClick={handleTicketClick}>New Ticket</span>
+          <span className="align-bottom" onClick={handleTicketClick}>
+            New Ticket
+          </span>
         </div>
         <NavLink to="/courses/list" className="btn btn-icon btn-icon-end btn-xs btn-background p-0">
           <span className="align-bottom">View All</span> <CsLineIcons icon="chevron-right" className="align-middle" size="12" />
         </NavLink>
       </div>
       <Row className="row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3 mb-5">
-        {topTickets.length > 0 ? topTickets.map(ticket => (
-          <Col key={ticket.ticketNumber}>
-            <Card className="cards h-100 position-relative">
-              {/* Unique Ticket Number */}
-              <div className="position-relative">
-  {/* Container for badges */}
-  <div className="d-flex justify-content-between align-items-center p-3">
-    {/* Badge on the left */}
-    <span className="badge bg-danger">Status : {ticket.ticketStatus}</span>
-    
-    {/* Badge on the right */}
-    <span className="badge bg-primary">Ticket #{ticket.ticketNumber}</span>
-  </div>
-</div>
+        {topTickets.length > 0 ? (
+          topTickets.map((ticket) => (
+            <Col key={ticket.ticketNumber}>
+              <Card className="cards h-100 position-relative">
+                {/* Unique Ticket Number */}
+                <div className="position-relative">
+                  {/* Container for badges */}
+                  <div className="d-flex justify-content-between align-items-center p-3">
+                    {/* Badge on the left */}
+                    <span className="badge bg-danger">Status : {ticket.ticketStatus}</span>
 
-              <Card.Body className="text-center">
-                <h className="pname ">
-                  <NavLink to="/courses/detail" className="body">
-                    Party Name: <strong>{ticket.partyName}</strong>
-                  </NavLink>
-                </h>
+                    {/* Badge on the right */}
+                    <span className="badge bg-primary">Ticket #{ticket.ticketNumber}</span>
+                  </div>
+                </div>
 
-                <div className='products'>
-                  <h className="heading">
-                    Products
+                <Card.Body className="text-center">
+                  <h className="pname ">
+                    <NavLink to="/courses/detail" className="body">
+                      Party Name: <strong>{ticket.partyName}</strong>
+                    </NavLink>
                   </h>
-                  <ol  className="list-group">
-                    {ticket.products.map(
-                      (product, index) => (
-                        <li key={index} style={{ marginBottom: '0.1rem', textAlign: 'left' }}>
-                          <strong className="qty">{product.productName}:</strong > {product.quantity} Nos
-                        </li>
-                      )
-                    )}
-                  </ol>
-                </div>
-              </Card.Body>
 
-              <Card.Footer className='footer' >
-                <div className="card-footer">
-                <h className="headings">Assigned Person:</h>
-                <p className="assinee">
-                  <strong>{ticket.assignee}</strong>
-                </p>
-                </div>
-                <div className='buttons'>
-                <button type="button" className="btn btn-primary btn-sm">Print</button>
-                
-                </div>
-              </Card.Footer>
-            </Card>
-          </Col>
-        )) : (
+                  <div className="products">
+                    <h className="heading">Products</h>
+                    <ol className="list-group">
+                      {ticket.products.map((product, index) => (
+                        <li key={index} style={{ marginBottom: '0.1rem', textAlign: 'left' }}>
+                          <strong className="qty">{product.productName}:</strong> {product.quantity} Nos
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                </Card.Body>
+
+                <Card.Footer className="footer">
+                  <div className="card-footer">
+                    <h className="headings">Assigned Person:</h>
+                    <p className="assinee">
+                      <strong>{ticket.assignee}</strong>
+                    </p>
+                  </div>
+                  <div className="buttons">
+                    <button type="button" className="btn btn-primary btn-sm">
+                      Print
+                    </button>
+                  </div>
+                </Card.Footer>
+              </Card>
+            </Col>
+          ))
+        ) : (
           <Col>No tickets available</Col>
         )}
         {showPopup && (

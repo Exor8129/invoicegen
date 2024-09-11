@@ -13,7 +13,7 @@ const Invoice = () => {
     <div className="invoice-container">
       <Header />
       <ItemTable />
-      <FooterTable />
+      
       <button 
         type="button" 
         onClick={printInvoice} 
