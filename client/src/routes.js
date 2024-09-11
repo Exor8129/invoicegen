@@ -11,6 +11,7 @@ const courses = {
   explore: lazy(() => import('views/acounting-vouchers/CoursesExplore')),
   list: lazy(() => import('views/acounting-vouchers/CoursesList')),
   detail: lazy(() => import('views/acounting-vouchers/CoursesDetail')),
+  
 };
 const entry = {
   sale: lazy(() => import('views/entry/SaleEntry')),
@@ -70,6 +71,7 @@ const routesAndMenuItems = {
         { path: '/list', label: 'Ledger', component: courses.list },
         { path: '/detail', label: 'Receipt', component: courses.detail },
         { path: '/details', label: 'Credit Note', component: courses.details },
+        
       ],
     },
     {
@@ -80,7 +82,7 @@ const routesAndMenuItems = {
       redirect: true,
       to: `${appRoot}/entry/list`,
       subs: [
-        { path: '/sale', label: 'Sale Entry', component: entry.sale },
+        { path: '/saleEntry', label: 'Sale Entry', component: entry.sale },
         { path: '/purchase', label: 'Purchase Entry', component: entry.purchase },
         { path: '/customer', label: 'Customer Entry', component: entry.customer },
         { path: '/Item', label: 'Item Entry', component: entry.item },

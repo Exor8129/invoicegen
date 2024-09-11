@@ -4,7 +4,8 @@ const cors = require("cors");
 const Customer = require("./models/customer");
 const Transporter= require("./models/transporter");
 const Item=require("./models/items");
-const Ticket=require("./models/ticket")
+const Ticket=require("./models/ticket");
+const SaleEntry=require("./models/saleEntrySchema");
 
 const app = express();
 app.use(cors());
@@ -85,7 +86,33 @@ app.get('/tickets', async (req, res) => {
   }
 });
 
-// app.use(bodyParser.json());
+app.get('/saleentry', async (req, res) => {
+  try {
+    // Fetch the sale entries from the database
+    const saleEntries = await SaleEntry.find().exec();
+    
+    // Log the entire array of sale entries to the console
+    // console.log('Fetched Sale Entries:', saleEntries);
+    
+    // Check if saleEntries is an empty array
+    if (saleEntries.length === 0) {
+      console.log('No sale entries found.');
+    } else {
+      // Loop through each sale entry and log the partyName
+      saleEntries.forEach(entry => console.log(entry.partyName));
+    }
+    
+    // Send the sale entries as a JSON response
+    res.status(200).json(saleEntries);
+  } catch (err) {
+    // Log any errors that occur
+    console.error('Error fetching sale entries:', err);
+    
+    // Send an error response
+    res.status(500).json({ message: err.message });
+  }
+});
+
 
 app.post('/ticketData', async (req, res) => {
   try {
@@ -127,6 +154,17 @@ app.post('/addCustomer', async (req, res) => {
     res.status(500).send('Error saving customer data');
   }
 });
+app.post('/api/sale-entry', async (req, res) => {
+  try {
+    const saleEntry = new SaleEntry(req.body);
+    await saleEntry.save();
+    res.status(201).json(saleEntry);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+
 
 
 app.listen(3001, () => {

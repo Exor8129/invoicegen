@@ -1,179 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
 import BreadcrumbList from 'components/breadcrumb-list/BreadcrumbList';
+import axios from 'axios';
 
 const SaleEntry = () => {
   const title = 'Sale Entry';
   const description = 'Elearning Portal Quiz List Page';
-
   const breadcrumbs = [{ to: '', text: 'Home' }];
 
-  // Sample data
-  const data = [
-    {
-      invoiceDate: '12/6/2024',
-      partyName: 'Exor Medical Systems',
-      invoiceNumber: '2314/24-24',
-      products: [
-        { productName: 'Non Vented Bipap Mask MSI', quantity: 10, rate: 725, pAndF: 100, total: 7350 },
-        { productName: 'Oxygen Concentrator', quantity: 5, rate: 1500, pAndF: 200, total: 8500 },
-      ],
-    },
-    {
-      invoiceDate: '13/6/2024',
-      partyName: 'HealthCorp Ltd.',
-      invoiceNumber: '2315/24-25',
-      products: [
-        { productName: 'Ventilator Mask', quantity: 15, rate: 800, pAndF: 120, total: 12400 },
-        { productName: 'Nebulizer Kit', quantity: 20, rate: 120, pAndF: 30, total: 2460 },
-        { productName: 'Ventilator Mask', quantity: 15, rate: 800, pAndF: 120, total: 12400 },
-        { productName: 'Nebulizer Kit', quantity: 20, rate: 120, pAndF: 30, total: 2460 },
-        { productName: 'Ventilator Mask', quantity: 15, rate: 800, pAndF: 120, total: 12400 },
-        { productName: 'Nebulizer Kit', quantity: 20, rate: 120, pAndF: 30, total: 2460 },
-      ],
-    },
-    {
-      invoiceDate: '13/6/2024',
-      partyName: 'HealthCorp Ltd.',
-      invoiceNumber: '2315/24-25',
-      products: [
-        { productName: 'Ventilator Mask', quantity: 15, rate: 800, pAndF: 120, total: 12400 },
-        { productName: 'Nebulizer Kit', quantity: 20, rate: 120, pAndF: 30, total: 2460 },
-        { productName: 'Ventilator Mask', quantity: 15, rate: 800, pAndF: 120, total: 12400 },
-        { productName: 'Nebulizer Kit', quantity: 20, rate: 120, pAndF: 30, total: 2460 },
-        { productName: 'Ventilator Mask', quantity: 15, rate: 800, pAndF: 120, total: 12400 },
-        { productName: 'Nebulizer Kit', quantity: 20, rate: 120, pAndF: 30, total: 2460 },
-      ],
-    },
-    {
-      invoiceDate: '13/6/2024',
-      partyName: 'HealthCorp Ltd.',
-      invoiceNumber: '2315/24-25',
-      products: [
-        { productName: 'Ventilator Mask', quantity: 15, rate: 800, pAndF: 120, total: 12400 },
-        { productName: 'Nebulizer Kit', quantity: 20, rate: 120, pAndF: 30, total: 2460 },
-        { productName: 'Ventilator Mask', quantity: 15, rate: 800, pAndF: 120, total: 12400 },
-        { productName: 'Nebulizer Kit', quantity: 20, rate: 120, pAndF: 30, total: 2460 },
-        { productName: 'Ventilator Mask', quantity: 15, rate: 800, pAndF: 120, total: 12400 },
-        { productName: 'Nebulizer Kit', quantity: 20, rate: 120, pAndF: 30, total: 2460 },
-      ],
-    },
-    {
-      invoiceDate: '13/6/2024',
-      partyName: 'HealthCorp Ltd.',
-      invoiceNumber: '2315/24-25',
-      products: [
-        { productName: 'Ventilator Mask', quantity: 15, rate: 800, pAndF: 120, total: 12400 },
-        { productName: 'Nebulizer Kit', quantity: 20, rate: 120, pAndF: 30, total: 2460 },
-        { productName: 'Ventilator Mask', quantity: 15, rate: 800, pAndF: 120, total: 12400 },
-        { productName: 'Nebulizer Kit', quantity: 20, rate: 120, pAndF: 30, total: 2460 },
-        { productName: 'Ventilator Mask', quantity: 15, rate: 800, pAndF: 120, total: 12400 },
-        { productName: 'Nebulizer Kit', quantity: 20, rate: 120, pAndF: 30, total: 2460 },
-      ],
-    },
-    {
-      invoiceDate: '13/6/2024',
-      partyName: 'HealthCorp Ltd.',
-      invoiceNumber: '2315/24-25',
-      products: [
-        { productName: 'Ventilator Mask', quantity: 15, rate: 800, pAndF: 120, total: 12400 },
-        { productName: 'Nebulizer Kit', quantity: 20, rate: 120, pAndF: 30, total: 2460 },
-        { productName: 'Ventilator Mask', quantity: 15, rate: 800, pAndF: 120, total: 12400 },
-        { productName: 'Nebulizer Kit', quantity: 20, rate: 120, pAndF: 30, total: 2460 },
-        { productName: 'Ventilator Mask', quantity: 15, rate: 800, pAndF: 120, total: 12400 },
-        { productName: 'Nebulizer Kit', quantity: 20, rate: 120, pAndF: 30, total: 2460 },
-      ],
-    },
-    {
-      invoiceDate: '13/6/2024',
-      partyName: 'HealthCorp Ltd.',
-      invoiceNumber: '2315/24-25',
-      products: [
-        { productName: 'Ventilator Mask', quantity: 15, rate: 800, pAndF: 120, total: 12400 },
-        { productName: 'Nebulizer Kit', quantity: 20, rate: 120, pAndF: 30, total: 2460 },
-        { productName: 'Ventilator Mask', quantity: 15, rate: 800, pAndF: 120, total: 12400 },
-        { productName: 'Nebulizer Kit', quantity: 20, rate: 120, pAndF: 30, total: 2460 },
-        { productName: 'Ventilator Mask', quantity: 15, rate: 800, pAndF: 120, total: 12400 },
-        { productName: 'Nebulizer Kit', quantity: 20, rate: 120, pAndF: 30, total: 2460 },
-      ],
-    },
-    {
-      invoiceDate: '13/6/2024',
-      partyName: 'HealthCorp Ltd.',
-      invoiceNumber: '2315/24-25',
-      products: [
-        { productName: 'Ventilator Mask', quantity: 15, rate: 800, pAndF: 120, total: 12400 },
-        { productName: 'Nebulizer Kit', quantity: 20, rate: 120, pAndF: 30, total: 2460 },
-        { productName: 'Ventilator Mask', quantity: 15, rate: 800, pAndF: 120, total: 12400 },
-        { productName: 'Nebulizer Kit', quantity: 20, rate: 120, pAndF: 30, total: 2460 },
-        { productName: 'Ventilator Mask', quantity: 15, rate: 800, pAndF: 120, total: 12400 },
-        { productName: 'Nebulizer Kit', quantity: 20, rate: 120, pAndF: 30, total: 2460 },
-      ],
-    },
-    {
-      invoiceDate: '13/6/2024',
-      partyName: 'HealthCorp Ltd.',
-      invoiceNumber: '2315/24-25',
-      products: [
-        { productName: 'Ventilator Mask', quantity: 15, rate: 800, pAndF: 120, total: 12400 },
-        { productName: 'Nebulizer Kit', quantity: 20, rate: 120, pAndF: 30, total: 2460 },
-        { productName: 'Ventilator Mask', quantity: 15, rate: 800, pAndF: 120, total: 12400 },
-        { productName: 'Nebulizer Kit', quantity: 20, rate: 120, pAndF: 30, total: 2460 },
-        { productName: 'Ventilator Mask', quantity: 15, rate: 800, pAndF: 120, total: 12400 },
-        { productName: 'Nebulizer Kit', quantity: 20, rate: 120, pAndF: 30, total: 2460 },
-      ],
-    },
-    {
-      invoiceDate: '13/6/2024',
-      partyName: 'HealthCorp Ltd.',
-      invoiceNumber: '2315/24-25',
-      products: [
-        { productName: 'Ventilator Mask', quantity: 15, rate: 800, pAndF: 120, total: 12400 },
-        { productName: 'Nebulizer Kit', quantity: 20, rate: 120, pAndF: 30, total: 2460 },
-        { productName: 'Ventilator Mask', quantity: 15, rate: 800, pAndF: 120, total: 12400 },
-        { productName: 'Nebulizer Kit', quantity: 20, rate: 120, pAndF: 30, total: 2460 },
-        { productName: 'Ventilator Mask', quantity: 15, rate: 800, pAndF: 120, total: 12400 },
-        { productName: 'Nebulizer Kit', quantity: 20, rate: 120, pAndF: 30, total: 2460 },
-      ],
-    },
-    {
-      invoiceDate: '13/6/2024',
-      partyName: 'HealthCorp Ltd.',
-      invoiceNumber: '2315/24-25',
-      products: [
-        { productName: 'Ventilator Mask', quantity: 15, rate: 800, pAndF: 120, total: 12400 },
-        { productName: 'Nebulizer Kit', quantity: 20, rate: 120, pAndF: 30, total: 2460 },
-        { productName: 'Ventilator Mask', quantity: 15, rate: 800, pAndF: 120, total: 12400 },
-        { productName: 'Nebulizer Kit', quantity: 20, rate: 120, pAndF: 30, total: 2460 },
-        { productName: 'Ventilator Mask', quantity: 15, rate: 800, pAndF: 120, total: 12400 },
-        { productName: 'Nebulizer Kit', quantity: 20, rate: 120, pAndF: 30, total: 2460 },
-      ],
-    },
-    // Add more sample data as needed
-  ];
-
-
-  // State for search query
+  const [data, setData] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [filteredData, setFilteredData] = useState([]);
+
+  // Fetch sale details when the component mounts
+  useEffect(() => {
+    const fetchSaleDetails = async () => {
+      try {
+        const response = await axios.get('http://localhost:3001/saleentry');
+        setData(response.data);
+        setFilteredData(response.data);  // Initialize with full data
+      } catch (error) {
+        console.error('Error fetching sale details:', error);
+      }
+    };
+
+    fetchSaleDetails();
+  }, []);
 
   // Filter data based on search query
-  const filteredData = data.filter(invoice =>
-    invoice.invoiceDate.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    invoice.partyName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    invoice.invoiceNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    invoice.products.some(product =>
-      product.productName.toLowerCase().includes(searchQuery.toLowerCase())
-    )
-  );
+  useEffect(() => {
+    const filtered = data.filter(invoice =>
+      invoice.invoiceDate.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      invoice.partyName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      invoice.invoiceNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      invoice.Products.some(product =>
+        product.productName.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    );
+    setFilteredData(filtered);
+  }, [searchQuery, data]);  // Re-filter when searchQuery or data changes
 
   return (
     <>
       <HtmlHead title={title} description={description} />
-      {/* Title and Top Buttons Start */}
       <div className="page-title-container">
         <Row>
-          {/* Title Start */}
           <Col xs="8">
             <h1 className="mb-0 pb-0 display-4">{title}</h1>
             <BreadcrumbList items={breadcrumbs} />
@@ -188,13 +60,9 @@ const SaleEntry = () => {
               />
             </div>
           </Col>
-          {/* Search Bar */}
-          {/* Title End */}
         </Row>
       </div>
-      {/* Title and Top Buttons End */}
 
-      {/* Header Row */}
       <Row className="d-none d-lg-flex mb-3 g-0 custom-sort">
         <Col>
           <Row className="gx-2 px-5">
@@ -226,70 +94,49 @@ const SaleEntry = () => {
         </Col>
       </Row>
 
-      {/* Map through the filtered data and render cards */}
       <Row className="g-3 mb-5">
-        {filteredData.map((invoice, index) => (
-          <Col sm="12" lg="12" key={index}>
-            <Card>
-              <Card.Body>
-                {invoice.products.length > 0 && (
-                  <>
-                    {/* Display the first product in the header-like row */}
-                    <Row className="g-0 mb-2">
+        {filteredData.length === 0 ? (
+          <Col xs="12">
+            <div>No data available.</div>
+          </Col>
+        ) : (
+          filteredData.map((invoice, index) => (
+            <Col sm="12" lg="12" key={index}>
+              <Card>
+                <Card.Body>
+                  {invoice.Products.map((product, i) => (
+                    <Row key={i} className="g-0 mb-2">
                       <Col xs="1" className="text-start">
-                        <div className="lh-1-5 mb-0">{invoice.invoiceDate}</div> {/* Invoice Date */}
+                        {i === 0 && <div className="lh-1-5 mb-0">{invoice.invoiceDate}</div>}
                       </Col>
                       <Col xs="3" className="text-start">
-                        <div className="lh-1-5 mb-0">{invoice.partyName}</div> {/* Party Name */}
+                        {i === 0 && <div className="lh-1-5 mb-0">{invoice.partyName}</div>}
                       </Col>
                       <Col xs="1" className="text-start">
-                        <div className="lh-1-5 mb-0">{invoice.invoiceNumber}</div> {/* Invoice Number */}
+                        {i === 0 && <div className="lh-1-5 mb-0">{invoice.invoiceNumber}</div>}
                       </Col>
                       <Col xs="3" className="text-start">
-                        <div className="lh-1-5 mb-0">{invoice.products[0].productName}</div> {/* Product Name */}
+                        <div className="lh-1-5 mb-0">{product.productName}</div>
                       </Col>
                       <Col xs="1" className="text-center">
-                        <div className="lh-1-5 mb-0">{invoice.products[0].quantity}</div> {/* Quantity */}
+                        <div className="lh-1-5 mb-0">{product.qty}</div>
                       </Col>
                       <Col xs="1" className="text-center">
-                        <div className="lh-1-5 mb-0">{invoice.products[0].rate}</div> {/* Rate */}
+                        <div className="lh-1-5 mb-0">{product.Rate}</div>
                       </Col>
                       <Col xs="1" className="text-center">
-                        <div className="lh-1-5 mb-0">{invoice.products[0].pAndF}</div> {/* P & F */}
+                        <div className="lh-1-5 mb-0">{invoice.packageForwarding}</div>
                       </Col>
                       <Col xs="1" className="text-center">
-                        <div className="lh-1-5 mb-0">{invoice.products[0].total}</div> {/* Total */}
+                        <div className="lh-1-5 mb-0">{product.qty * product.Rate}</div>
                       </Col>
                     </Row>
-                    {/* Display the rest of the products */}
-                    {invoice.products.slice(1).map((product, i) => (
-                      <Row key={i} className="g-0 mb-2">
-                        <Col xs="1" className="text-start" />
-                        <Col xs="3" className="text-start" />
-                        <Col xs="1" className="text-start" />
-                        <Col xs="3" className="text-start">
-                          <div className="lh-1-5 mb-0">{product.productName}</div> {/* Product Name */}
-                        </Col>
-                        <Col xs="1" className="text-center">
-                          <div className="lh-1-5 mb-0">{product.quantity}</div> {/* Quantity */}
-                        </Col>
-                        <Col xs="1" className="text-center">
-                          <div className="lh-1-5 mb-0">{product.rate}</div> {/* Rate */}
-                        </Col>
-                        <Col xs="1" className="text-center">
-                          <div className="lh-1-5 mb-0">{product.pAndF}</div> {/* P & F */}
-                        </Col>
-                        <Col xs="1" className="text-center">
-                          <div className="lh-1-5 mb-0">{product.total}</div> {/* Total */}
-                        </Col>
-                      </Row>
-                    ))}
-                  </>
-                )}
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
+                  ))}
+                </Card.Body>
+              </Card>
+            </Col>
+          ))
+        )}
       </Row>
     </>
   );
