@@ -144,8 +144,9 @@ const CoursesExplore = () => {
       </div>
       <Row className="row-cols-1 g-3 mb-5">
         <Col>
-          <Card className="h-100" style={{ backgroundColor: '#fff', color: '#fff' }}>
+          <Card className="invoice-main h-100" style={{ backgroundColor: '#fff', color: '#fff' }}>
             <Card.Body className="p-5">
+            <div className='button-panel'><button type="button"className="btn btn-primary no-print">Print Invoice</button></div>
               {/* Here you can place your invoice UI content */}
               <div className="d-flex flex-column align-items-center">
                 <h3 className="mb-4">Invoice</h3>

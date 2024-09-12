@@ -28,4 +28,48 @@
       display: none;
     }
   }
+
+  .logo-container{
+    display: flex;
+    flex-direction: row;
+    /* margin-bottom: -80px; */
+    /* background-color: blueviolet; */
+    height: 200px;
+  }
+
+  .logo{
+    display: flex;
+    flex-direction: column;
+    scale: .5;
+    margin-left: -135px;
+    margin-top: -50px;
+  }
+
+  .tag{
+    scale: .15;
+    margin-left: -415px;
+    margin-top: -130px;
+  }
+  .app-address{
+    padding-top: 10px;
+    color: black;
+    font-size: 30px;
+    /* background-color: blueviolet; */
+  }
+
+  .app-gst-dl{
+    margin-top: 10px;
+    /* color: black; */
+    /* font-size: 95px; */
+    /* font-weight:bold; */
+  }
+
+  .comp-gst{
+    margin-top: 50px;
+    font-size: 80px;
+    color: black;
+    font-weight:bolder;
+
+  }
+
   

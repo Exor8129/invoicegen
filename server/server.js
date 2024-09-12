@@ -67,7 +67,7 @@ app.get('/getHighestTicketNumber', async (req, res) => {
   try {
     const highestTicket = await Ticket.findOne().sort({ ticketNumber: -1 }).exec();
     const highestNumber = highestTicket ? highestTicket.ticketNumber : 0;
-    console.log('Highest ticket number:', highestNumber);
+    
     res.json({ highestTicketNumber: highestNumber });
   } catch (error) {
     console.error('Error fetching highest ticket number:', error);

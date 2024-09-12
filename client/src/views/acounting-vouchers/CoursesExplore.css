@@ -53,3 +53,9 @@
     
     margin-left: 80px;
 }
+.invoice-main{
+  display: flex;
+  flex-direction: row;
+ 
+
+}
