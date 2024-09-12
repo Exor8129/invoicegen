@@ -33,13 +33,7 @@ const Invoice = () => {
       <Header />
       <ItemTable />
       
-      <button 
-        type="button" 
-        onClick={printInvoice} 
-        className="btn btn-primary no-print"
-      >
-        Print Invoice
-      </button>
+     
     </div>
   );
 };

@@ -59,3 +59,26 @@
  
 
 }
+.button-panel {
+  margin-top: 50px;
+  width: 100%;
+  display: flex;
+  flex-direction: column; /* Arrange items in a column */
+  align-items: flex-end; /* Aligns the column content to the right */
+  gap: 10px; /* Adjust the gap between elements */
+  margin-bottom: 20px;
+}
+
+.card-body{
+  display: flex;
+  flex-direction: row;
+}
+.btnInvoice{
+  width: 150px;
+  margin-right: 100px;
+}
+
+.invoice-ui{
+  margin-left: 200px;
+}
+

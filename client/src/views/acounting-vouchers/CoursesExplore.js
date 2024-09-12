@@ -145,20 +145,28 @@ const CoursesExplore = () => {
       <Row className="row-cols-1 g-3 mb-5">
         <Col>
           <Card className="invoice-main h-100" style={{ backgroundColor: '#fff', color: '#fff' }}>
-            <Card.Body className="p-5">
-            <div className='button-panel'><button type="button"className="btn btn-primary no-print">Print Invoice</button></div>
+            <Card.Body className="card-body p-5">
+            
               {/* Here you can place your invoice UI content */}
               <div className="d-flex flex-column align-items-center">
                 <h3 className="mb-4">Invoice</h3>
                 {/* Add your invoice content here */}
-                <div className="border border-light rounded p-4" style={{ width: '210mm', height: '297mm' }}>
+                <div className="invoice-ui border border-light rounded p-4" style={{ width: '210mm', height: '297mm' }}>
                   <div>
                     <Invoice />
                   </div>
-                  <h5 className="text-light">Invoice Content</h5>
+                  
                   {/* Additional invoice details */}
                 </div>
+                
               </div>
+              <div className='button-panel'>
+              <button type="button"className="btnInvoice btn btn-primary no-print">Print Invoice</button>
+              <button type="button"className="btnInvoice btn btn-primary no-print">New Invoice</button>
+              <button type="button"className="btnInvoice btn btn-primary no-print">Saved Invoice</button>
+              <button type="button"className="btnInvoice btn btn-primary no-print">Edit Invoice</button>
+              <button type="button"className="btnInvoice btn btn-primary no-print">Delete Invoice</button>
+            </div>
             </Card.Body>
           </Card>
         </Col>
